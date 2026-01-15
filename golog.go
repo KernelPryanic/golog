@@ -21,16 +21,19 @@ var Default zerolog.Logger
 func init() {
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
 	zerolog.TimeFieldFormat = time.RFC3339Nano
-	Default = New(false)
+	Default = New(false, os.Stdout)
 	zerolog.DefaultContextLogger = &Default
 }
 
 // New creates a new logger instance.
-func New(consoleWriter bool) zerolog.Logger {
-	out := io.Writer(os.Stdout)
+// If out is nil, os.Stdout will be used.
+func New(consoleWriter bool, out io.Writer) zerolog.Logger {
+	if out == nil {
+		out = os.Stdout
+	}
 	if consoleWriter {
 		out = zerolog.ConsoleWriter{
-			Out:        os.Stdout,
+			Out:        out,
 			TimeFormat: zerolog.TimeFieldFormat,
 		}
 	}

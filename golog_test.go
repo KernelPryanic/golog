@@ -12,8 +12,7 @@ import (
 // TestWithCensoredSecretFields tests censoring of secret fields in structs.
 func TestWithCensoredSecretFields(t *testing.T) {
 	var buf bytes.Buffer
-	logger := golog.New(false)
-	logger = logger.Output(&buf)
+	logger := golog.New(false, &buf)
 
 	type SubStruct struct {
 		PublicField string `json:"public"`
@@ -61,8 +60,7 @@ func TestWithCensoredSecretFields(t *testing.T) {
 // TestWithCensoredSecretFieldsNilPointer tests handling of nil pointer fields.
 func TestWithCensoredSecretFieldsNilPointer(t *testing.T) {
 	var buf bytes.Buffer
-	logger := golog.New(false)
-	logger = logger.Output(&buf)
+	logger := golog.New(false, &buf)
 
 	type SubStruct struct {
 		PublicField string `json:"public"`
@@ -101,8 +99,7 @@ func TestWithCensoredSecretFieldsNilPointer(t *testing.T) {
 // TestWithCensoredSecretFieldsNonStruct tests passing non-struct values.
 func TestWithCensoredSecretFieldsNonStruct(t *testing.T) {
 	var buf bytes.Buffer
-	logger := golog.New(false)
-	logger = logger.Output(&buf)
+	logger := golog.New(false, &buf)
 
 	// Pass a non-struct value (should be handled gracefully)
 	ctx := golog.WithCensoredSecretFields(logger.With(), "value", 42)
@@ -121,8 +118,7 @@ func TestWithCensoredSecretFieldsNonStruct(t *testing.T) {
 // TestWithCensoredSecretFieldsPointerToStruct tests passing a pointer to struct.
 func TestWithCensoredSecretFieldsPointerToStruct(t *testing.T) {
 	var buf bytes.Buffer
-	logger := golog.New(false)
-	logger = logger.Output(&buf)
+	logger := golog.New(false, &buf)
 
 	type Config struct {
 		Username string `json:"username"`
@@ -150,8 +146,7 @@ func TestWithCensoredSecretFieldsPointerToStruct(t *testing.T) {
 // TestWithCensoredSecretFieldsDeepNesting tests deeply nested struct handling.
 func TestWithCensoredSecretFieldsDeepNesting(t *testing.T) {
 	var buf bytes.Buffer
-	logger := golog.New(false)
-	logger = logger.Output(&buf)
+	logger := golog.New(false, &buf)
 
 	type Level3 struct {
 		Data   string `json:"data"`
